@@ -1,7 +1,0 @@
-{
-  "name": "StaffBadge",
-  "description": "Adds staff badge to specific user",
-  "version": "1.0.0",
-  "author": "iamkj12454356-oss",
-  "main": "index.js"
-}
