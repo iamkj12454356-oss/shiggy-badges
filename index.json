@@ -1,0 +1,62 @@
+export default {
+    name: "StaffBadge",
+    description: "Adds staff badge to specific user",
+    version: "1.0.0",
+    author: "iamkj12454356-oss",
+
+    start() {
+        try {
+            const s = globalThis;
+            let store = null;
+
+            for (const k in s) {
+                try {
+                    if (s[k] && typeof s[k] === "object" && typeof s[k].getUserProfile === "function") {
+                        store = s[k];
+                        break;
+                    }
+                } catch (e) {}
+            }
+
+            if (store) {
+                const o = store.getUserProfile;
+
+                store.getUserProfile = function(...a) {
+                    const p = o.apply(this, a);
+
+                    if (p && (p.userId === "1297543480633200660" || p.id === "1297543480633200660")) {
+                        if (!p.badges) p.badges = [];
+
+                        let exists = false;
+                        for (let i = 0; i < p.badges.length; i++) {
+                            if (p.badges[i].id === "staff" || p.badges[i].badge === "staff") {
+                                exists = true;
+                                break;
+                            }
+                        }
+
+                        if (!exists) {
+                            p.badges.push({
+                                id: "staff",
+                                badge: "staff",
+                                description: "Discord Staff",
+                                tooltip: "Discord Staff",
+                                icon: "https://cdn.discordapp.com/badge-icons/staff.png"
+                            });
+                        }
+                    }
+
+                    return p;
+                };
+
+                console.log("Badge injected");
+            } else {
+                console.log("Store not found");
+            }
+        } catch (e) {
+            console.error(e);
+        }
+    },
+
+    stop() {}
+};
